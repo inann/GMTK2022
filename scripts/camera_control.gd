@@ -1,6 +1,6 @@
 extends Spatial
 
-var rotationSpeed = 0.01
+var rotationSpeed = 0.5
 var holding_world_button = false
 var zoom_speed = 0.09
 # Declare member variables here. Examples:
@@ -16,11 +16,11 @@ func _ready():
 # For mouse input
 func _input(event):
     if event is InputEventMouseButton:
-        if event.button_index == BUTTON_LEFT and event.is_pressed():
+        if event.button_index == BUTTON_RIGHT and event.is_pressed():
             #var movement = event.relative
             Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
             holding_world_button = true
-        elif event.button_index == BUTTON_LEFT and not event.is_pressed():
+        elif event.button_index == BUTTON_RIGHT and not event.is_pressed():
             holding_world_button = false
             #Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
             Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -34,8 +34,8 @@ func _input(event):
             # use this to rotate the camera around the center
             transform = transform.orthonormalized()
             $InnerGimbal.transform = $InnerGimbal.transform.orthonormalized()
-            transform = transform.rotated(transform.basis.y, (rotationSpeed * event.relative.x))
-            $InnerGimbal.transform = $InnerGimbal.transform.rotated($InnerGimbal.transform.basis.x, rotationSpeed * event.relative.y)
+            transform = transform.rotated(transform.basis.y, deg2rad(rotationSpeed * event.relative.x))
+            $InnerGimbal.transform = $InnerGimbal.transform.rotated($InnerGimbal.transform.basis.x, deg2rad(rotationSpeed * event.relative.y))
             if $InnerGimbal.rotation_degrees.x > 75:
                 $InnerGimbal.rotation_degrees.x = 75
             if $InnerGimbal.rotation_degrees.x < -45:
